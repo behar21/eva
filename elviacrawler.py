@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import time
 from selenium.webdriver.common.keys import Keys
 
-chrome=webdriver.PhantomJS()
+chrome=webdriver.Chrome()
 chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
 prit = WebDriverWait(chrome,10)
 try:
@@ -35,6 +35,8 @@ try:
 	
 	chrome.find_element_by_xpath("//*[@id='8572']").click()
     	
+	element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
+	chrome.find_element_by_xpath("//*[@id='1730']").click()
 	print("1st Page Finished")
 
 		#-------Go to 2nd Page -------------
