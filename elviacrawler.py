@@ -13,21 +13,29 @@ chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de"
 prit = WebDriverWait(chrome,10)
 try:
 				
-  	dp1=chrome.find_element_by_xpath("//*[@id='id6731']/option[text()='2016']").click()
+  	#dp1=chrome.find_element_by_xpath("//*[@id='id6731']/option[text()='2016']").click()
 	
 	
-   	element = prit.until(EC.element_to_be_clickable((By.ID, '8393')))
-	dp2=chrome.find_element_by_xpath("//*[@id='8393']/option[text()='BMW']").click()
+   	#element = prit.until(EC.element_to_be_clickable((By.ID, '8393')))
+	#dp2=chrome.find_element_by_xpath("//*[@id='8393']/option[text()='BMW']").click()
 
-	element = prit.until(EC.element_to_be_clickable((By.ID, '8440')))
-	dp3=chrome.find_element_by_xpath("//*[@id='8440']/option[text()='2er Serie F46 BENZIN Gran Tourer']").click()
+	#element = prit.until(EC.element_to_be_clickable((By.ID, '8440')))
+	#dp3=chrome.find_element_by_xpath("//*[@id='8440']/option[text()='2er Serie F46 BENZIN Gran Tourer']").click()
 	
-	element = prit.until(EC.element_to_be_clickable((By.ID, 'id6815')))
-	dp4=chrome.find_element_by_xpath("//*[@id='id6815']/option[text()='216i Gran Tourer']").click()
+	#element = prit.until(EC.element_to_be_clickable((By.ID, 'id6815')))
+	#dp4=chrome.find_element_by_xpath("//*[@id='id6815']/option[text()='216i Gran Tourer']").click()
     
-    	element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
-    	chrome.find_element_by_xpath("//*[@id='1730']").click()
-    	print("1st Page Finished")
+    	#element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
+    	#chrome.find_element_by_xpath("//*[@id='1730']").click()
+	
+	element = prit.until(EC.element_to_be_clickable((By.ID,'8535')))
+	search = chrome.find_element_by_xpath("//*[@id='8535']")
+	search.clear()
+	search.send_keys("1AF225")
+	
+	chrome.find_element_by_xpath("//*[@id='8572']").click()
+    	
+	print("1st Page Finished")
 
 		#-------Go to 2nd Page -------------
         
