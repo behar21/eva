@@ -16,7 +16,7 @@ ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 try:
 	#----------------- Read Excel -----------------#
-	for row in ws.iter_rows('S{}:S{}'.format(2,10)):
+	for row in ws.iter_rows('S{}:S{}'.format(2,100)):
         	#--------------- Start Web Driver ------------#
        		chrome=webdriver.PhantomJS()
         	chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
@@ -46,8 +46,11 @@ try:
 		
 			chrome.find_element_by_xpath("//*[@id='8572']").click()
     		
-			element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
-			if chrome.find_element_by_xpath("//*[@id='1730']"):
+			element = prit.until(EC.element_to_be_clickable((By.ID,'10406')))
+			if element.text == "0Treffer":
+				print "No Data"
+				print ("-------------------------->")
+			else:
 				chrome.find_element_by_xpath("//*[@id='1730']").click()
                 		#print("1st Page Finished")			
 
@@ -110,9 +113,8 @@ try:
                     		vol = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
                 		print("Vollkasko :"+ vol.text +" CHF")
                 		print("-------------------------")
-				
 		chrome.close()
-
+	print "Done"
 except TimeoutException:
 	print "Loading took too much time!"
 
