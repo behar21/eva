@@ -7,13 +7,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 import openpyxl
 
-#--------------- Start Web Driver ------------#
-chrome=webdriver.PhantomJS()
-chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
-#--------------- End Web Driver --------------#
-#--------------- Start WaitDrive -------------#
-prit = WebDriverWait(chrome,10)
-#--------------- End WaitDrive ---------------#
+
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook(filename='policies.xlsm')
@@ -22,8 +16,16 @@ ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 try:
 	#----------------- Read Excel -----------------#
-	for row in ws.iter_rows('S{}:S{}'.format(2,ws.max_row)):
+	for row in ws.iter_rows('S{}:S{}'.format(2,32)):
+		#--------------- Start Web Driver ------------#
+		chrome=webdriver.PhantomJS()
+		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
+		#--------------- End Web Driver --------------#
+		#--------------- Start WaitDrive -------------#
+		prit = WebDriverWait(chrome,10)
+		#--------------- End WaitDrive ---------------#
 		for cell in row:
+			
 			print(cell.value)
 			cell_S = cell.value	
   			
@@ -106,7 +108,8 @@ try:
 	        	element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
 	        	vol = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
 			print("Vollkasko :"+ vol.text +" CHF")
-			print("-------------------------")		
+			print("-------------------------")
+	chrome.quit()	
 
 except TimeoutException:
 	print "Loading took too much time!"
