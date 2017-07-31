@@ -17,14 +17,15 @@ ws = wb[sheets[0]]
 try:
 	#----------------- Read Excel -----------------#
 	for row in ws.iter_rows('S{}:S{}'.format(2,10)):
+        	#--------------- Start Web Driver ------------#
+       		chrome=webdriver.PhantomJS()
+        	chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
+        	#--------------- End Web Driver --------------#
+        	#--------------- Start WaitDrive -------------#
+        	prit = WebDriverWait(chrome,10)
+        	#--------------- End WaitDrive ---------------#
 		for cell in row:
-        		#--------------- Start Web Driver ------------#
-            		chrome=webdriver.PhantomJS()
-            		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
-           	 	#--------------- End Web Driver --------------#
-            		#--------------- Start WaitDrive -------------#
-            		prit = WebDriverWait(chrome,20)
-            		#--------------- End WaitDrive ---------------#
+        		
 			print(cell.value)
 			cell_S = cell.value	
   			
@@ -46,69 +47,71 @@ try:
 			chrome.find_element_by_xpath("//*[@id='8572']").click()
     		
 			element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
-			chrome.find_element_by_xpath("//*[@id='1730']").click()
-			#print("1st Page Finished")			
+			if chrome.find_element_by_xpath("//*[@id='1730']"):
+				chrome.find_element_by_xpath("//*[@id='1730']").click()
+                		#print("1st Page Finished")			
 
-		#-------Go to 2nd Page -------------
-        
-	    		element = prit.until(EC.element_to_be_clickable((By.ID,'id8214')))
-	    		chrome.find_element_by_xpath("//*[@id='id8214']/option[text()='AG']").click()
-		
-	   		kontrollschild = chrome.find_element_by_xpath("//*[@id='id9108']")
-	    		kontrollschild.clear()
-	    		kontrollschild.send_keys("123456")
+			        #-------Go to 2nd Page -------------
+
+                    		element = prit.until(EC.element_to_be_clickable((By.ID,'id8214')))
+                    		chrome.find_element_by_xpath("//*[@id='id8214']/option[text()='AG']").click()
+
+                		kontrollschild = chrome.find_element_by_xpath("//*[@id='id9108']")
+                    		kontrollschild.clear()
+                    		kontrollschild.send_keys("123456")
+
+                    		inverkehrestzung = chrome.find_element_by_xpath("//*[@id='id9116']")
+                    		inverkehrestzung.clear()
+                    		inverkehrestzung.send_keys("28.07.2017")
 			
-	    		inverkehrestzung = chrome.find_element_by_xpath("//*[@id='id9116']")
-	    		inverkehrestzung.clear()
-	    		inverkehrestzung.send_keys("28.07.2017")
-	
-	    		chrome.find_element_by_xpath("//*[@id='id2640']/option[text()='kein Leasing']").click()
-	    		#print("2nd Page Finished")
-	        
-	
-		#------- Got  to 3rd Page ------------
-	    		chrome.find_element_by_xpath("//*[@id='1730']").click()	
+                		chrome.find_element_by_xpath("//*[@id='id2640']/option[text()='kein Leasing']").click()
+                  		#print("2nd Page Finished")
+
+				
+        			#------- Got  to 3rd Page ------------
+                    		chrome.find_element_by_xpath("//*[@id='1730']").click()	
 
 
-	    		element = prit.until(EC.element_to_be_clickable((By.ID,'id10558')))
-    			fuhrerausweis = chrome.find_element_by_xpath("//*[@id='id10558']")
-    			fuhrerausweis.clear()
-	    		fuhrerausweis.send_keys("02.02.2017")
-	            
-	   		plz = chrome.find_element_by_xpath("//*[@id='id1001001']")
-	    		plz.clear()
-	    		plz.send_keys("4016")
-	    		chrome.find_element_by_xpath("//*[@id='id10558']").click()
-	
-	    		element = prit.until(EC.element_to_be_clickable((By.ID,'id1744')))
-	    		jahr = chrome.find_element_by_xpath("//*[@id='id1744']")
-	    		jahr.clear()
-	   		jahr.send_keys("5")
-	                
-	    		birthdate = chrome.find_element_by_xpath("//*[@id='8120']")
-	    		birthdate.clear()
-	    		birthdate.send_keys("28.01.1993")
-	    		chrome.find_element_by_xpath("//*[@id='id10558']").click()
-					
-	    		#print("3rd Page Finished!!!")
-	    		chrome.find_element_by_xpath("//*[@id='1730']").click()
-			
-	   		element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
-	    		chrome.find_element_by_xpath("//*[@id='1730']").click()
-	
-	    		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
-	    		haft = chrome.find_element_by_xpath("//*[@id='id4861']")
-	        
-	        	teil = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
-	    		print("Haftpflicht : "+haft.text +" CHF")
-			print("Teilkasko :"+teil.text +" CHF")
-	        
-			chrome.find_element_by_name("I9.checked").click()        
-	        	element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
-	        	vol = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
-			print("Vollkasko :"+ vol.text +" CHF")
-			print("-------------------------")
-			chrome.close()
+		                element = prit.until(EC.element_to_be_clickable((By.ID,'id10558')))
+                    		fuhrerausweis = chrome.find_element_by_xpath("//*[@id='id10558']")
+                    		fuhrerausweis.clear()
+                    		fuhrerausweis.send_keys("02.02.2017")
+
+		                plz = chrome.find_element_by_xpath("//*[@id='id1001001']")
+		                plz.clear()
+                    		plz.send_keys("4016")
+                    		chrome.find_element_by_xpath("//*[@id='id10558']").click()
+
+                    		element = prit.until(EC.element_to_be_clickable((By.ID,'id1744')))
+                    		jahr = chrome.find_element_by_xpath("//*[@id='id1744']")
+                    		jahr.clear()
+                		jahr.send_keys("5")
+
+                    		birthdate = chrome.find_element_by_xpath("//*[@id='8120']")
+                    		birthdate.clear()
+                    		birthdate.send_keys("28.01.1993")
+                    		chrome.find_element_by_xpath("//*[@id='id10558']").click()
+
+                    		#print("3rd Page Finished!!!")
+                    		chrome.find_element_by_xpath("//*[@id='1730']").click()
+
+                		element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
+                    		chrome.find_element_by_xpath("//*[@id='1730']").click()
+
+                    		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
+                    		haft = chrome.find_element_by_xpath("//*[@id='id4861']")
+
+                    		teil = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
+                    		print("Haftpflicht : "+haft.text +" CHF")
+                		print("Teilkasko :"+teil.text +" CHF")
+
+                		chrome.find_element_by_name("I9.checked").click()        
+                    		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
+                    		vol = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
+                		print("Vollkasko :"+ vol.text +" CHF")
+                		print("-------------------------")
+				
+		chrome.close()
 
 except TimeoutException:
 	print "Loading took too much time!"
