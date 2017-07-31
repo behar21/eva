@@ -16,16 +16,15 @@ ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 try:
 	#----------------- Read Excel -----------------#
-	for row in ws.iter_rows('S{}:S{}'.format(2,32)):
-		#--------------- Start Web Driver ------------#
-		chrome=webdriver.PhantomJS()
-		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
-		#--------------- End Web Driver --------------#
-		#--------------- Start WaitDrive -------------#
-		prit = WebDriverWait(chrome,10)
-		#--------------- End WaitDrive ---------------#
+	for row in ws.iter_rows('S{}:S{}'.format(2,10)):
 		for cell in row:
-			
+        		#--------------- Start Web Driver ------------#
+            		chrome=webdriver.PhantomJS()
+            		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
+           	 	#--------------- End Web Driver --------------#
+            		#--------------- Start WaitDrive -------------#
+            		prit = WebDriverWait(chrome,20)
+            		#--------------- End WaitDrive ---------------#
 			print(cell.value)
 			cell_S = cell.value	
   			
@@ -109,7 +108,7 @@ try:
 	        	vol = chrome.find_element_by_xpath("(//*[@id='id4861'])[2]")
 			print("Vollkasko :"+ vol.text +" CHF")
 			print("-------------------------")
-	chrome.quit()	
+			chrome.close()
 
 except TimeoutException:
 	print "Loading took too much time!"
