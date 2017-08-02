@@ -159,44 +159,52 @@ try:
 	   	element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
 	    	chrome.find_element_by_xpath("//*[@id='1730']").click()
 	    	
-		#-------Deselect Teilkasko checkbox-------
-		chrome.find_element_by_name("I10.checked").click()
 		
-			
+		#-------Get Heftplicht -------
+		#------delselect all-----------
+        	if leasing == "yes":
+            		chrome.find_element_by_name("I9.checked").click()
+        
+        	else :
+            		chrome.find_element_by_name("I10.checked").click()
+
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
 		ws['W'+index] = haft.text   
-		print("Haftplicht : "+haft.text)
+		#print("Haftplicht : "+haft.text)
 		
-		#------Select Teilkasko checkbox---------
-		element = prit.until(EC.element_to_be_clickable((By.ID,'id7747')))
-		chrome.find_element_by_name("I10.checked").click()
+		#------Check Teilkasko---------
+        	element = prit.until(EC.element_to_be_clickable((By.NAME,'I10.checked')))
+                chrome.find_element_by_name("I10.checked").click()
 		
-		#------Select Migefuhrte-----------------
-		element = prit.until(EC.element_to_be_clickable((By.ID,'id7747')))
+		#------Uncheck Migefuhrte-----------------
+     			
+		element = prit.until(EC.element_to_be_clickable((By.NAME,'I14.checked')))
 		chrome.find_element_by_name("I14.checked").click()
+        		
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))						
     		teil =  chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel------
 		ws['X'+index] = teil.text   
-    		print("Teilkasko :"+teil.text +" CHF")
-		
+    		#print("Teilkasko :"+teil.text +" CHF")
+			
 		#------Select Vollkaso checkbox----------
-		element = prit.until(EC.element_to_be_clickable((By.ID,'id7747')))
-                chrome.find_element_by_name("I9.checked").click()
+		element = prit.until(EC.element_to_be_clickable((By.NAME,'I9.checked')))
+        	chrome.find_element_by_name("I9.checked").click()
 		chrome.find_element_by_xpath("//*[@id='id7253']/option[text()='500.00']").click()
-		
-		element = prit.until(EC.element_to_be_clickable((By.ID,'id7747')))
+			
+		element = prit.until(EC.element_to_be_clickable((By.NAME,'I16.checked')))
 		chrome.find_element_by_name("I16.checked").click()	
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))  
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
-                #---Write Excel------
+        	#---Write Excel------
 		ws['Y'+index] =vol.text    
-		print("Vollkasko :"+vol.text +" CHF")
-	    	print("-------------------------")
-		
+		#print("Vollkasko :"+vol.text +" CHF")
+		#print("-------------------------")
+		print (index)	
 		wb.save("policies.xlsm")			
+		
 		chrome.close()
 except TimeoutException:
 	print "Loading took too much time!"
