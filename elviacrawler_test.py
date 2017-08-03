@@ -16,7 +16,7 @@ wb = openpyxl.load_workbook(filename='policies.xlsm')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #------test xlswriter---------
-workbook = xlsxwriter.Workbook('policies.xlsx')
+workbook = xlsxwriter.Workbook('OutData.xlsx')
 worksheet = workbook.add_worksheet()
 
 
@@ -179,7 +179,7 @@ try:
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
 		#ws['W'+index] = haft.text   
-		worksheet.write('W'+index, haft.text)
+		worksheet.write(i-1,0,haft.text)
 		#print("Haftplicht : "+haft.text)
 		
 		#------Check Teilkasko---------
@@ -195,7 +195,7 @@ try:
     		teil =  chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel------
 		#ws['X'+index] = teil.text
-		worksheet.write('X'+index, teil.text)
+		worksheet.write(i-1,1,teil.text)
     		#print("Teilkasko :"+teil.text +" CHF")
 			
 		#------Select Vollkaso checkbox----------
@@ -209,16 +209,16 @@ try:
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		#ws['Y'+index] =vol.text    
-		worksheet.write('Y'+index, vol.text)
+		worksheet.write(i-1,2,vol.text)
 		#print("Vollkasko :"+vol.text +" CHF")
 		#print("-------------------------")
 		#print (index)	
 		#wb.save("policies.xlsm")			
 		pbar.update(1)
-		workbook.close()
 		chrome.close()
-
+	
 	pbar.close()
+	workbook.close()
 except TimeoutException:
 	print "-----------------------------------Error --------------------------------------"
 
