@@ -204,10 +204,10 @@ try:
 		#print("Vollkasko :"+vol.text +" CHF")
 		#print("-------------------------")
 		#print (index)	
-		wb.save("policies.xlsm")			
+		#wb.save("policies.xlsm")			
 		pbar.update(1)
 		chrome.close()
-
+	wb.save("policies.xlsm")
 	pbar.close()
 except TimeoutException:
 	print "-----------------------------------Error --------------------------------------"
