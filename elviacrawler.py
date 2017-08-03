@@ -15,10 +15,11 @@ wb = openpyxl.load_workbook(filename='policies.xlsm')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-try:
-    	pbar = tqdm(total=4)
-	#----------------- Read Excel Rows -----------------#    	
-	for i in range(2,6):
+pbar = tqdm(total=497)
+#----------------- Read Excel Rows -----------------#    	
+for i in range(503,1000):
+	try:
+    	
 		index = str(i)
 		#--------- Read Excel Data -----------------#
 		brand = ws['P'+index].value
@@ -39,7 +40,7 @@ try:
 		prit = WebDriverWait(chrome,10)
   		
 		#--------- 1st Page -----------------------#
-        element = prit.until(EC.element_to_be_clickable((By.ID, '2017')))
+        	element = prit.until(EC.element_to_be_clickable((By.ID, 'id6731')))
 		dp1=chrome.find_element_by_xpath("//*[@id='id6731']/option[text()='2017']").click()
 		
 		element = prit.until(EC.element_to_be_clickable((By.ID, '8393')))
@@ -98,7 +99,7 @@ try:
 		element = prit.until(EC.element_to_be_clickable((By.ID,'23729')))
 		if gender == 'Female':
 			geschlecht = chrome.find_element_by_xpath("//*[@id='23731']").click()
-		elif ggender == 'Male':
+		elif gender == 'Male':
 			geschlecht = chrome.find_element_by_xpath("//*[@id='23738']").click()
 		
   		element = prit.until(EC.element_to_be_clickable((By.ID,'id10558')))
@@ -173,7 +174,10 @@ try:
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
-		ws['W'+index] = haft.text   
+		ws['W'+index] = haft.text 
+		#outW = open("outW.txt","a")
+		#outW.write(haft.text)
+		#outW.close()
 		#print("Haftplicht : "+haft.text)
 		
 		#------Check Teilkasko---------
@@ -190,7 +194,9 @@ try:
 		#---Write Excel------
 		ws['X'+index] = teil.text   
     		#print("Teilkasko :"+teil.text +" CHF")
-			
+		#outX = open("outX.txt","a")
+		#outX.write(teil.text)
+		#outX.close()	
 		#------Select Vollkaso checkbox----------
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I9.checked')))
         	chrome.find_element_by_name("I9.checked").click()
@@ -201,16 +207,26 @@ try:
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))  
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
-		ws['Y'+index] =vol.text    
+		ws['Y'+index] =vol.text
+		#outY = open("outY.txt","a")
+		#outY.write(vol.text)
+		#outY.close()    
 		#print("Vollkasko :"+vol.text +" CHF")
 		#print("-------------------------")
 		#print (index)	
-		#wb.save("policies.xlsm")			
+					
+		
+		
+	
+	except :
+		
+		outY = open("Log.txt","a")
+		outY.write("Error at ID: "+index)
+		outY.close() 
+		pass
+	finally :
 		pbar.update(1)
 		chrome.close()
-	wb.save("policies.xlsm")
-	pbar.close()
-except TimeoutException:
-    pass
-	print "-----------------------------------Error --------------------------------------"
+wb.save("policies.xlsm")
+pbar.close()
 
