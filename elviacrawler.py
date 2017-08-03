@@ -38,7 +38,8 @@ try:
 		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
 		prit = WebDriverWait(chrome,10)
   		
-		#--------- 1st Page -----------------------#		
+		#--------- 1st Page -----------------------#
+        element = prit.until(EC.element_to_be_clickable((By.ID, '2017')))
 		dp1=chrome.find_element_by_xpath("//*[@id='id6731']/option[text()='2017']").click()
 		
 		element = prit.until(EC.element_to_be_clickable((By.ID, '8393')))
@@ -210,5 +211,6 @@ try:
 	wb.save("policies.xlsm")
 	pbar.close()
 except TimeoutException:
+    pass
 	print "-----------------------------------Error --------------------------------------"
 
