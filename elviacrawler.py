@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 import openpyxl
+from tqdm import tqdm
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook(filename='policies.xlsm')
@@ -15,7 +16,7 @@ sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 try:
-	
+    	pbar = tqdm(total=4)
 	#----------------- Read Excel Rows -----------------#    	
 	for i in range(2,6):
 		index = str(i)
@@ -202,10 +203,12 @@ try:
 		ws['Y'+index] =vol.text    
 		#print("Vollkasko :"+vol.text +" CHF")
 		#print("-------------------------")
-		print (index)	
+		#print (index)	
 		wb.save("policies.xlsm")			
-		
+		pbar.update(1)
 		chrome.close()
+
+	pbar.close()
 except TimeoutException:
-	print "Loading took too much time!"
+	print "-----------------------------------Error --------------------------------------"
 
