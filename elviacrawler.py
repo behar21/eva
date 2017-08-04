@@ -15,9 +15,9 @@ wb = openpyxl.load_workbook(filename='policies.xlsm')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=497)
+pbar = tqdm(total=3)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(503,1000):
+for i in range(7,10):
 	try:
     	
 		index = str(i)
@@ -34,7 +34,7 @@ for i in range(503,1000):
 		nationality = ws['L'+index].value
 		milage = ws['G'+index].value
 		garage = ws['F'+index].value
-				
+		
 		chrome = webdriver.PhantomJS()
 		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
 		prit = WebDriverWait(chrome,10)
@@ -175,11 +175,7 @@ for i in range(503,1000):
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
 		ws['W'+index] = haft.text 
-		#outW = open("outW.txt","a")
-		#outW.write(haft.text)
-		#outW.close()
-		#print("Haftplicht : "+haft.text)
-		
+
 		#------Check Teilkasko---------
         	element = prit.until(EC.element_to_be_clickable((By.NAME,'I10.checked')))
                 chrome.find_element_by_name("I10.checked").click()
@@ -193,10 +189,6 @@ for i in range(503,1000):
     		teil =  chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel------
 		ws['X'+index] = teil.text   
-    		#print("Teilkasko :"+teil.text +" CHF")
-		#outX = open("outX.txt","a")
-		#outX.write(teil.text)
-		#outX.close()	
 		#------Select Vollkaso checkbox----------
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I9.checked')))
         	chrome.find_element_by_name("I9.checked").click()
@@ -208,25 +200,19 @@ for i in range(503,1000):
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		ws['Y'+index] =vol.text
-		#outY = open("outY.txt","a")
-		#outY.write(vol.text)
-		#outY.close()    
-		#print("Vollkasko :"+vol.text +" CHF")
-		#print("-------------------------")
-		#print (index)	
-					
-		
-		
-	
+		chrome.close()	
 	except :
 		
 		outY = open("Log.txt","a")
 		outY.write("Error at ID: "+index)
-		outY.close() 
+		outY.close()
+		wb.save("policies.xlsm")
+		pbar.close()
+		chrome.close() 
 		pass
 	finally :
 		pbar.update(1)
 		chrome.close()
 wb.save("policies.xlsm")
 pbar.close()
-
+chrome.close()
