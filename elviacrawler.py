@@ -200,7 +200,6 @@ for i in range(7,10):
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		ws['Y'+index] =vol.text
-		chrome.close()	
 	except :
 		
 		outY = open("Log.txt","a")
@@ -213,6 +212,6 @@ for i in range(7,10):
 	finally :
 		pbar.update(1)
 		chrome.close()
+		chrome.quit()
 wb.save("policies.xlsm")
 pbar.close()
-chrome.close()
