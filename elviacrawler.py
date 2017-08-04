@@ -9,15 +9,16 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 import openpyxl
 from tqdm import tqdm
+import time
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook(filename='policies.xlsm')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=3)
+pbar = tqdm(total=10)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(7,10):
+for i in range(2,11):
 	try:
     	
 		index = str(i)
@@ -35,7 +36,7 @@ for i in range(7,10):
 		milage = ws['G'+index].value
 		garage = ws['F'+index].value
 		
-		chrome = webdriver.PhantomJS()
+		chrome = webdriver.Chrome()
 		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
 		prit = WebDriverWait(chrome,10)
   		
@@ -103,9 +104,10 @@ for i in range(7,10):
 			geschlecht = chrome.find_element_by_xpath("//*[@id='23738']").click()
 		
   		element = prit.until(EC.element_to_be_clickable((By.ID,'id10558')))
-    		fuhrerausweis = chrome.find_element_by_xpath("//*[@id='id10558']")
+    		lAge = '01.01.'+str(licenceAge)
+		fuhrerausweis = chrome.find_element_by_xpath("//*[@id='id10558']")
     		fuhrerausweis.clear()
-    		fuhrerausweis.send_keys("01.01.2017")
+    		fuhrerausweis.send_keys(lAge)
 	
 	  	plz = chrome.find_element_by_xpath("//*[@id='id1001001']")
 	  	plz.clear()
@@ -136,8 +138,8 @@ for i in range(7,10):
 	    	birthdate.clear()
 		
 		bdate = '01.01.1976'
-		if licenceAge != '5+':
-			bdate = '01.01.1996'
+		if licenceAge == '1996':
+			bdate = '01.01.1976'
 	    	birthdate.send_keys(bdate)
 	    	
 		#--nationality---
@@ -170,12 +172,13 @@ for i in range(7,10):
         
         	else :
             		chrome.find_element_by_name("I10.checked").click()
-
+		
+	
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id4861')))
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
 		ws['W'+index] = haft.text 
-
+	
 		#------Check Teilkasko---------
         	element = prit.until(EC.element_to_be_clickable((By.NAME,'I10.checked')))
                 chrome.find_element_by_name("I10.checked").click()
@@ -184,15 +187,21 @@ for i in range(7,10):
      			
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I14.checked')))
 		chrome.find_element_by_name("I14.checked").click()
-        		
+        	
+		
+		element = prit.until(EC.element_to_be_clickable((By.ID,'id7253')))
+                chrome.find_element_by_xpath("//*[@id='id7253']/option[text()='0.00']").click()
+		
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))						
     		teil =  chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel------
+	
+		
 		ws['X'+index] = teil.text   
 		#------Select Vollkaso checkbox----------
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I9.checked')))
         	chrome.find_element_by_name("I9.checked").click()
-		chrome.find_element_by_xpath("//*[@id='id7253']/option[text()='500.00']").click()
+		chrome.find_element_by_xpath("//*[@name='I12.sval']/option[text()='500.00']").click()
 			
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I16.checked')))
 		chrome.find_element_by_name("I16.checked").click()	
@@ -200,18 +209,20 @@ for i in range(7,10):
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		ws['Y'+index] =vol.text
+		
+	
 	except :
 		
 		outY = open("Log.txt","a")
 		outY.write("Error at ID: "+index)
 		outY.close()
-		wb.save("policies.xlsm")
 		pbar.close()
-		chrome.close() 
+		#chrome.close()
+		#chrome.quit()
 		pass
 	finally :
 		pbar.update(1)
 		chrome.close()
 		chrome.quit()
-wb.save("policies.xlsm")
+wb.save("policies.xlsx")
 pbar.close()
