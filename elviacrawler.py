@@ -16,9 +16,9 @@ wb = openpyxl.load_workbook(filename='policies.xlsm')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=10)
+pbar = tqdm(total=1)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(2,11):
+for i in range(3,4):
 	try:
     	
 		index = str(i)
@@ -137,9 +137,12 @@ for i in range(2,11):
 		birthdate = chrome.find_element_by_xpath("//*[@id='8120']")
 	    	birthdate.clear()
 		
-		bdate = '01.01.1976'
-		if licenceAge == '1996':
-			bdate = '01.01.1976'
+		bdate = '01.01.1996'
+		if licenceAge == '2013':
+			bdate = '01.01.1994'
+		elif licenceAge == '1976':
+                        bdate = '01.01.1976'
+
 	    	birthdate.send_keys(bdate)
 	    	
 		#--nationality---
