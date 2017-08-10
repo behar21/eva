@@ -12,13 +12,13 @@ from tqdm import tqdm
 import time
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
-wb = openpyxl.load_workbook(filename='policies.xlsm')
+wb = openpyxl.load_workbook(filename='policies.xlsx')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=1)
+pbar = tqdm(total=2)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(3,4):
+for i in range(2,4):
 	try:
     	
 		index = str(i)
@@ -137,13 +137,12 @@ for i in range(3,4):
 		birthdate = chrome.find_element_by_xpath("//*[@id='8120']")
 	    	birthdate.clear()
 		
-		bdate = '01.01.1996'
-		if licenceAge == '2013':
-			bdate = '01.01.1994'
-		elif licenceAge == '1976':
-                        bdate = '01.01.1976'
-
-	    	birthdate.send_keys(bdate)
+		if str(licenceAge) == "2013":
+			birthdate.send_keys('01.01.1994')
+		elif str(licenceAge) == "1996":
+                        birthdate.send_keys('01.01.1976')
+		else:
+	    		birthdate.send_keys('01.01.1996')
 	    	
 		#--nationality---
 		chrome.find_element_by_xpath("//*[@id='id3329']/option[text() ='"+nationality+"']").click()
