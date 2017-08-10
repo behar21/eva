@@ -16,9 +16,9 @@ wb = openpyxl.load_workbook(filename='policies.xlsx')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=2)
+pbar = tqdm(total=1)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(2,4):
+for i in range(2,3):
 	try:
     	
 		index = str(i)
@@ -35,7 +35,7 @@ for i in range(2,4):
 		nationality = ws['L'+index].value
 		milage = ws['G'+index].value
 		garage = ws['F'+index].value
-		
+		deducible = ws['N'+index].value
 		chrome = webdriver.Chrome()
 		chrome.get("https://tarif.elvia.ch/direct/start.do?calc=mfz&variante=pw&lang=de")
 		prit = WebDriverWait(chrome,10)
@@ -83,8 +83,8 @@ for i in range(2,4):
    	 	inverkehrestzung = chrome.find_element_by_xpath("//*[@id='id9116']")
    	 	inverkehrestzung.clear()
    	 	inverkehrestzung.send_keys("01.01.2017")
-  		
-		if leasing == 'yes':	
+  			
+		if leasing == "yes":	
   	  		chrome.find_element_by_xpath("//*[@id='id2640']/option[text()='Leasing']").click()
 		else:
 	  		chrome.find_element_by_xpath("//*[@id='id2640']/option[text()='kein Leasing']").click()	
@@ -190,9 +190,12 @@ for i in range(2,4):
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I14.checked')))
 		chrome.find_element_by_name("I14.checked").click()
         	
-		
-		element = prit.until(EC.element_to_be_clickable((By.ID,'id7253')))
-                chrome.find_element_by_xpath("//*[@id='id7253']/option[text()='0.00']").click()
+		print deducible
+		element = prit.until(EC.element_to_be_clickable((By.NAME,'I12.sval')))
+		if str(deducible) == "300":
+               		chrome.find_element_by_xpath("//*[@name='I12.sval']/option[text()='300.00']").click()
+		else:
+			 chrome.find_element_by_xpath("//*[@name='I12.sval']/option[text()='0.00']").click()
 		
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))						
     		teil =  chrome.find_element_by_xpath("//*[@id='id100071']")
@@ -203,8 +206,14 @@ for i in range(2,4):
 		#------Select Vollkaso checkbox----------
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I9.checked')))
         	chrome.find_element_by_name("I9.checked").click()
+		
 		chrome.find_element_by_xpath("//*[@name='I12.sval']/option[text()='500.00']").click()
-			
+		if str(deducible) == "300":
+                        chrome.find_element_by_xpath("//*[@name='I14.sval']/option[text()='300.00']").click()
+                else:
+                        chrome.find_element_by_xpath("//*[@name='I14.sval']/option[text()='0.00']").click()
+		
+	
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I16.checked')))
 		chrome.find_element_by_name("I16.checked").click()	
 		element = prit.until(EC.element_to_be_clickable((By.ID,'id100071')))  
