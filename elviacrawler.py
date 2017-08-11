@@ -18,7 +18,7 @@ ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 pbar = tqdm(total=1)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(2,3):
+for i in range(24,25):
 	try:
     	
 		index = str(i)
@@ -189,8 +189,7 @@ for i in range(2,3):
      			
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I14.checked')))
 		chrome.find_element_by_name("I14.checked").click()
-        	
-		print deducible
+        
 		element = prit.until(EC.element_to_be_clickable((By.NAME,'I12.sval')))
 		if str(deducible) == "300":
                		chrome.find_element_by_xpath("//*[@name='I12.sval']/option[text()='300.00']").click()
@@ -223,7 +222,7 @@ for i in range(2,3):
 		
 	
 	except :
-		
+		wb.save("policies.xlsx")
 		outY = open("Log.txt","a")
 		outY.write("Error at ID: "+index)
 		outY.close()
