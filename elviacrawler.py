@@ -16,9 +16,9 @@ wb = openpyxl.load_workbook(filename='policies.xlsx')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=1)
+pbar = tqdm(total=5)
 #----------------- Read Excel Rows -----------------#    	
-for i in range(24,25):
+for i in range(1550,1556):
 	try:
     	
 		index = str(i)
@@ -145,10 +145,10 @@ for i in range(24,25):
 	    		birthdate.send_keys('01.01.1996')
 	    	
 		#--nationality---
-		chrome.find_element_by_xpath("//*[@id='id3329']/option[text() ='"+nationality+"']").click()
+		#chrome.find_element_by_xpath("//*[@id='id3329']/option[text() ='"+nationality+"']").click()
 		
-		if nationality != 'Schweiz':
-			chrome.find_element_by_xpath("//*[@id='id3348']/option[text()='C (Niederlassung)']").click()
+		#if nationality != 'Schweiz':
+		#	chrome.find_element_by_xpath("//*[@id='id3348']/option[text()='C (Niederlassung)']").click()
 		
 		#----  Wird Ihr Fahrzeug von Lenkern unter 25 Jahren gefahren?  -----
 		chrome.find_element_by_xpath("//*[@id='id11006503']").click()
@@ -158,11 +158,15 @@ for i in range(24,25):
 			chrome.find_element_by_xpath("//*[@id='id11006431']").click()
 		else:
 			chrome.find_element_by_xpath("//*[@id='id11006417']").click()
-		
+	
+		chrome.find_element_by_xpath("//*[@id='id3329']/option[text() ='"+nationality+"']").click()
+
+		if nationality != 'Schweiz':
+                        chrome.find_element_by_xpath("//*[@id='id3348']/option[text()='C (Niederlassung)']").click()
 		#---------------_Last Page ---------------------------------
 		chrome.find_element_by_xpath("//*[@id='id10558']").click()
 	    	chrome.find_element_by_xpath("//*[@id='1730']").click()
-	
+		
 	   	element = prit.until(EC.element_to_be_clickable((By.ID,'1730')))
 	    	chrome.find_element_by_xpath("//*[@id='1730']").click()
 	    	
@@ -219,8 +223,8 @@ for i in range(24,25):
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		ws['Y'+index] =vol.text
-		
-	
+        
+        
 	except :
 		wb.save("policies.xlsx")
 		outY = open("Log.txt","a")
