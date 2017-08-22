@@ -19,7 +19,7 @@ ws = wb[sheets[0]]
 pbar = tqdm(total=4)
 
 #----------------- Read Excel Rows -----------------#    	
-for i in range(2263,2264):
+for i in range(1874,1875):
 	try:
     	
 		index = str(i)
