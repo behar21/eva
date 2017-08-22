@@ -12,13 +12,14 @@ from tqdm import tqdm
 import time
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
-wb = openpyxl.load_workbook(filename='policies.xlsx')
+wb = openpyxl.load_workbook(filename='ElviaShort.xlsx')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
-pbar = tqdm(total=5)
+pbar = tqdm(total=4)
+
 #----------------- Read Excel Rows -----------------#    	
-for i in range(1550,1556):
+for i in range(66,67):
 	try:
     	
 		index = str(i)
@@ -30,7 +31,7 @@ for i in range(1550,1556):
 		accessories = ws['R'+index].value
 		fahrzeugverwendung = ws['I'+index].value
 		gender = ws['J'+index].value
-		licenceAge = ws['K'+index].value
+ 		licenceAge = ws['K'+index].value
 		zip = ws['M'+index].value
 		nationality = ws['L'+index].value
 		milage = ws['G'+index].value
@@ -223,14 +224,12 @@ for i in range(1550,1556):
 		vol = chrome.find_element_by_xpath("//*[@id='id100071']")
         	#---Write Excel------
 		ws['Y'+index] =vol.text
-        
-        
+ 
 	except :
-		wb.save("policies.xlsx")
+		wb.save("ElviaShort.xlsx")
 		outY = open("Log.txt","a")
 		outY.write("Error at ID: "+index)
 		outY.close()
-		pbar.close()
 		#chrome.close()
 		#chrome.quit()
 		pass
@@ -238,5 +237,5 @@ for i in range(1550,1556):
 		pbar.update(1)
 		chrome.close()
 		chrome.quit()
-wb.save("policies.xlsx")
+wb.save("ElviaShort.xlsx")
 pbar.close()
