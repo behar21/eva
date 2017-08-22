@@ -12,14 +12,14 @@ from tqdm import tqdm
 import time
 #--------------- Start Excel -----------------#
 wb = openpyxl.Workbook()
-wb = openpyxl.load_workbook(filename='ElviaShort.xlsx')
+wb = openpyxl.load_workbook(filename='policies.xlsx')
 sheets = wb.sheetnames
 ws = wb[sheets[0]]
 #--------------- End Excel -------------------#
 pbar = tqdm(total=4)
 
 #----------------- Read Excel Rows -----------------#    	
-for i in range(66,67):
+for i in range(2263,2264):
 	try:
     	
 		index = str(i)
@@ -81,7 +81,7 @@ for i in range(66,67):
    		#kontrollschild.clear()
    		#kontrollschild.send_keys("123456")
    	
-   	 	inverkehrestzung = chrome.find_element_by_xpath("//*[@id='id9116']")
+ 		inverkehrestzung = chrome.find_element_by_xpath("//*[@id='id9116']")
    	 	inverkehrestzung.clear()
    	 	inverkehrestzung.send_keys("01.01.2017")
   			
@@ -94,15 +94,18 @@ for i in range(66,67):
 			chrome.find_element_by_xpath("//*[@id='id1000556']/option[text()='Privat']").click()
 		else:
 			chrome.find_element_by_xpath("//*[@id='id1000556']/option[text()='Privat und geschäftlich']").click()
-	
+		
 		#------- Got  to 3rd Page ------------
  	   	chrome.find_element_by_xpath("//*[@id='1730']").click()	
 		
 		element = prit.until(EC.element_to_be_clickable((By.ID,'23729')))
-		if gender == 'Female':
-			geschlecht = chrome.find_element_by_xpath("//*[@id='23731']").click()
-		elif gender == 'Male':
-			geschlecht = chrome.find_element_by_xpath("//*[@id='23738']").click()
+		
+		if gender == 'Male':
+	        	
+			chrome.find_element_by_id("23738").click()
+		else:
+            		
+			chrome.find_element_by_id("23732").click()
 		
   		element = prit.until(EC.element_to_be_clickable((By.ID,'id10558')))
     		lAge = '01.01.'+str(licenceAge)
@@ -164,6 +167,11 @@ for i in range(66,67):
 
 		if nationality != 'Schweiz':
                         chrome.find_element_by_xpath("//*[@id='id3348']/option[text()='C (Niederlassung)']").click()
+		
+		if str(licenceAge) == "1996":
+			chrome.find_element_by_xpath("//*[@id='id1001369']").click()
+		
+		
 		#---------------_Last Page ---------------------------------
 		chrome.find_element_by_xpath("//*[@id='id10558']").click()
 	    	chrome.find_element_by_xpath("//*[@id='1730']").click()
@@ -185,7 +193,7 @@ for i in range(66,67):
 	 	haft = chrome.find_element_by_xpath("//*[@id='id100071']")
 		#---Write Excel-------
 		ws['W'+index] = haft.text 
-	
+		
 		#------Check Teilkasko---------
         	element = prit.until(EC.element_to_be_clickable((By.NAME,'I10.checked')))
                 chrome.find_element_by_name("I10.checked").click()
@@ -226,7 +234,7 @@ for i in range(66,67):
 		ws['Y'+index] =vol.text
  
 	except :
-		wb.save("ElviaShort.xlsx")
+		wb.save("policies.xlsx")
 		outY = open("Log.txt","a")
 		outY.write("Error at ID: "+index)
 		outY.close()
@@ -237,5 +245,5 @@ for i in range(66,67):
 		pbar.update(1)
 		chrome.close()
 		chrome.quit()
-wb.save("ElviaShort.xlsx")
+wb.save("policies.xlsx")
 pbar.close()
